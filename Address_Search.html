@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Save Array Data to Text File</title>
+  <script>
+
+
+  const sendEmail = () => {
+  const emailData = {
+    FromEmail: "aminbinwali@hotmail.com",
+    ToEmail: "aminbinwali@hotmail.com",
+    Subject: "Test Email from JavaScript",
+    Body: "This is a test email sent from JavaScript."
+  };
+
+  fetch("http://localhost:5000/api/emailapi", {
+	method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(emailData)
+  })
+    .then(response => {
+      if (response.ok) {
+        console.log("Email sent successfully!");
+      } else {
+        console.error("Failed to send email:", response.statusText);
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+    });
+};
+  
+    function saveArrayData() {
+      var data = ["Building 1, Street 4, Rughaylat, Fujairah City Sector, Postal Code 90122",
+                  "Building 4, Street 4, Rughaylat, Fujairah City Sector, Postal Code 90122",
+                  "Building 6, Street 4, Rughaylat, Fujairah City Sector, Postal Code 90122"];
+      var textToSave = data.join('\n');
+
+      var textFileBlob = new Blob([textToSave], { type: 'text/plain' });
+      var fileName = 'array_data.txt';
+
+      if (window.navigator.msSaveOrOpenBlob) {
+        window.navigator.msSaveOrOpenBlob(textFileBlob, fileName);
+      } else {
+        var downloadLink = document.createElement('a');
+        downloadLink.href = window.URL.createObjectURL(textFileBlob);
+        downloadLink.download = fileName;
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        document.body.removeChild(downloadLink);
+      }
+    }
+  </script>
+</head>
+<body>
+  <button onclick="sendEmail()">Test Email</button>
+</body>
+</html>
